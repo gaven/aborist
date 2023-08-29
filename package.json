@@ -1,9 +1,9 @@
 {
-  "name": "@boring/arborist",
+  "name": "dendrologist",
   "description": "A simple, fast, and lightweight tree modification library for JavaScript.",
   "version": "0.0.0",
   "type": "module",
-  "main": "./dist/arborist.js",
+  "main": "./dist/dendrologist.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

@@ -1,4 +1,4 @@
-# Arborist 🌲
+# Dendrologist 🌲
 
 This library provides a set of functions to manipulate a tree data structure where each node has an `id` and a list of `children`. The tree is represented by a Node interface:
 
