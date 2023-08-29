@@ -9,6 +9,14 @@ interface Node {
 }
 ```
 
+### Installation
+
+```shell
+npm install dendrologist
+yarn install dendrologist
+pnpm install dendrologist
+```
+
 ### Functions
 
 **getNodeById(node: Node | null | undefined, id: string): Node | null**
