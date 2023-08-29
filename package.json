@@ -1,12 +1,13 @@
 {
   "name": "arborist",
-  "private": true,
+  "description": "A simple, fast, and lightweight tree modification library for JavaScript.",
   "version": "0.0.0",
-  "type": "module",
+  "main": "./dist/arborist.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "test": "vitest"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "typescript": "^5.0.2",
