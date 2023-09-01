@@ -2,7 +2,7 @@
   "name": "dendrologist",
   "description": "A simple, fast, and lightweight tree modification library for JavaScript.",
   "homepage": "https://github.com/gaven/dendrologist",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "type": "module",
   "main": "./dist/dendrologist.js",
   "scripts": {
