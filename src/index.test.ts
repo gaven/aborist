@@ -1,4 +1,5 @@
 import {
+  Node,
   addNode,
   deleteNode,
   getNodeById,
@@ -90,7 +91,7 @@ test("updateNode - should update the correct node", () => {
     throw new Error("Node not updated");
   }
 
-  const updatedNode = result.children.find((child) => child.id === "3");
+  const updatedNode = result.children?.find((child: Node) => child.id === "3");
 
   if (!updatedNode) {
     throw new Error("Updated node not found");
@@ -152,7 +153,7 @@ test("deleteNode - should delete the correct node", () => {
     throw new Error("Node not deleted");
   }
 
-  const deletedNode = result.children.find((child) => child.id === "3");
+  const deletedNode = result.children.find((child: Node) => child.id === "3");
   console.log(deletedNode);
 
   expect(deletedNode).toBeUndefined();
@@ -205,7 +206,7 @@ test("addNode - should add a new node at the correct position", () => {
     throw new Error("Node not added");
   }
 
-  const parentNode = result.children.find((child) => child.id === "3");
+  const parentNode = result.children.find((child: Node) => child.id === "3");
 
   if (!parentNode) {
     throw new Error("Parent node not found");
@@ -261,8 +262,8 @@ test("moveNode - should move the node to a new parent", () => {
     throw new Error("Node not moved");
   }
 
-  const oldParentNode = result.children.find((child) => child.id === "3");
-  const newParentNode = result.children.find((child) => child.id === "2");
+  const oldParentNode = result.children.find((child: Node) => child.id === "3");
+  const newParentNode = result.children.find((child: Node) => child.id === "2");
 
   if (!oldParentNode || !newParentNode) {
     throw new Error("Parent node not found");

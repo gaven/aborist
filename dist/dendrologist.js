@@ -1,91 +1,91 @@
-function u(r, t) {
-  if (!r || !t || typeof t != "string")
+function l(p, f, i = "children") {
+  if (!p || !f || typeof f != "string")
     return null;
-  let h = [];
-  for (h.push(r); h.length; ) {
-    let n = h.pop();
-    if (n && n.id === t)
-      return n;
-    n && n.children && h.push(...n.children);
+  let t = [];
+  for (t.push(p); t.length; ) {
+    let u = t.pop();
+    if (u && u.id === f)
+      return u;
+    u && u[i] && t.push(...u[i]);
   }
   return null;
 }
-function o(r, t, h) {
-  const n = {
-    id: r.id,
-    children: r.children ? r.children.map((e) => ({ ...e })) : []
+function a(p, f, i, t = "children") {
+  const u = {
+    id: p.id,
+    [t]: p[t] ? p[t].map((o) => ({ ...o })) : []
   };
-  let i = [];
-  for (i.push(n); i.length; ) {
-    let e = i.pop();
-    if (e && e.id === t)
-      return Object.assign(e, h), n;
-    e && e.children && i.push(...e.children);
+  let r = [];
+  for (r.push(u); r.length; ) {
+    let o = r.pop();
+    if (o && o.id === f)
+      return Object.assign(o, i), u;
+    o && o[t] && r.push(...o[t]);
   }
   return null;
 }
-function p(r, t) {
-  if (!r || !t)
+function N(p, f, i = "children") {
+  if (!p || !f)
     return null;
-  const h = {
-    id: r.id,
-    children: r.children ? r.children.map((i) => ({ ...i })) : []
+  const t = {
+    id: p.id,
+    [i]: p[i] ? p[i].map((r) => ({ ...r })) : []
   };
-  let n = [];
-  for (n.push(h); n.length; ) {
-    let i = n.pop();
-    if (i && i.children.some((e) => e.id === t))
-      return i.children = i.children.filter(
-        (e) => e.id !== t
-      ), h;
-    i && i.children && n.push(...i.children);
+  let u = [];
+  for (u.push(t); u.length; ) {
+    let r = u.pop();
+    if (r && r[i].some((o) => o.id === f))
+      return r[i] = r[i].filter(
+        (o) => o.id !== f
+      ), t;
+    r && r[i] && u.push(...r[i]);
   }
   return null;
 }
-function f(r, t, h, n) {
-  if (!r || !t || !h)
+function w(p, f, i, t, u = "children") {
+  if (!p || !f || !i)
     throw new Error("Invalid input parameters");
-  const i = {
-    id: r.id,
-    children: r.children ? r.children.map((l) => ({ ...l })) : []
+  const r = {
+    id: p.id,
+    [u]: p[u] ? p[u].map((n) => ({ ...n })) : []
   };
-  let e = [];
-  for (e.push(i); e.length; ) {
-    let l = e.pop();
-    if (l && l.id === t)
-      return l.children.splice(n, 0, h), i;
-    l && l.children && e.push(...l.children);
+  let o = [];
+  for (o.push(r); o.length; ) {
+    let n = o.pop();
+    if (n && n.id === f)
+      return n[u].splice(t, 0, i), r;
+    n && n[u] && o.push(...n[u]);
   }
   throw new Error("Parent id not found in tree");
 }
-function s(r, t, h) {
-  if (!r || !t || !h)
+function d(p, f, i, t = "children") {
+  if (!p || !f || !i)
     throw new Error("Invalid input parameters");
-  const n = {
-    id: r.id,
-    children: r.children ? r.children.map((d) => ({ ...d })) : []
+  const u = {
+    id: p.id,
+    [t]: p[t] ? p[t].map((s) => ({ ...s })) : []
   };
-  let i = null, e = null, l = [];
-  for (l.push(n); l.length; ) {
-    let d = l.pop();
-    d && d.id === t && (e && (e.children = e.children.filter(
-      (c) => c.id !== t
-    )), i = d), d && d.children && (e = d, l.push(...d.children));
+  let r = null, o = null, n = [];
+  for (n.push(u); n.length; ) {
+    let s = n.pop();
+    s && s.id === f && (o && (o[t] = o[t].filter(
+      (e) => e.id !== f
+    )), r = s), s && s[t] && (o = s, n.push(...s[t]));
   }
-  if (!i)
+  if (!r)
     throw new Error("Node id not found in tree");
-  for (l = [], l.push(n); l.length; ) {
-    let d = l.pop();
-    if (d && d.id === h)
-      return d.children.push(i), n;
-    d && d.children && l.push(...d.children);
+  for (n = [], n.push(u); n.length; ) {
+    let s = n.pop();
+    if (s && s.id === i)
+      return s[t].push(r), u;
+    s && s[t] && n.push(...s[t]);
   }
   throw new Error("New parent id not found in tree");
 }
 export {
-  f as addNode,
-  p as deleteNode,
-  u as getNodeById,
-  s as moveNode,
-  o as updateNode
+  w as addNode,
+  N as deleteNode,
+  l as getNodeById,
+  d as moveNode,
+  a as updateNode
 };

@@ -1,6 +1,6 @@
-interface Node extends Record<string, any> {
+export interface Node {
   id: string;
-  children?: Node[];
+  [key: string]: any;
 }
 
 export function getNodeById(
