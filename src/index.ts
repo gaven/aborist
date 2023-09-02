@@ -1,11 +1,12 @@
-interface Node {
+interface Node extends Record<string, any> {
   id: string;
-  children: Node[];
+  children?: Node[];
 }
 
 export function getNodeById(
   node: Node | null | undefined,
-  id: string
+  id: string,
+  childrenKey: string = "children"
 ): Node | null {
   // Check if node or id is null or undefined
   if (!node || !id || typeof id !== "string") {
@@ -26,8 +27,8 @@ export function getNodeById(
     }
 
     // Add children to the stack
-    if (currentNode && currentNode.children) {
-      stack.push(...currentNode.children);
+    if (currentNode && currentNode[childrenKey]) {
+      stack.push(...currentNode[childrenKey]);
     }
   }
 
@@ -35,11 +36,18 @@ export function getNodeById(
   return null;
 }
 
-export function updateNode(node: Node, id: string, newData: Node): Node | null {
+export function updateNode(
+  node: Node,
+  id: string,
+  newData: Node,
+  childrenKey: string = "children"
+): Node | null {
   // Create a deep copy of the node
   const copiedNode: Node = {
     id: node.id,
-    children: node.children ? node.children.map((child) => ({ ...child })) : [],
+    [childrenKey]: node[childrenKey]
+      ? node[childrenKey].map((child: Node) => ({ ...child }))
+      : [],
   };
 
   // Create a stack for DFS
@@ -58,8 +66,8 @@ export function updateNode(node: Node, id: string, newData: Node): Node | null {
     }
 
     // Add children to the stack
-    if (currentNode && currentNode.children) {
-      stack.push(...currentNode.children);
+    if (currentNode && currentNode[childrenKey]) {
+      stack.push(...currentNode[childrenKey]);
     }
   }
 
@@ -69,7 +77,8 @@ export function updateNode(node: Node, id: string, newData: Node): Node | null {
 
 export function deleteNode(
   node: Node | null | undefined,
-  id: string
+  id: string,
+  childrenKey: string = "children"
 ): Node | null {
   // Check if node or id is null or undefined
   if (!node || !id) {
@@ -79,7 +88,9 @@ export function deleteNode(
   // Create a deep copy of the node
   const copiedNode: Node = {
     id: node.id,
-    children: node.children ? node.children.map((child) => ({ ...child })) : [],
+    [childrenKey]: node[childrenKey]
+      ? node[childrenKey].map((child: Node) => ({ ...child }))
+      : [],
   };
 
   // Create a stack for DFS
@@ -91,17 +102,20 @@ export function deleteNode(
     let currentNode = stack.pop();
 
     // Check if current node's children contain the target id
-    if (currentNode && currentNode.children.some((child) => child.id === id)) {
+    if (
+      currentNode &&
+      currentNode[childrenKey].some((child: Node) => child.id === id)
+    ) {
       // Remove the node with the matching id from the parent's children array
-      currentNode.children = currentNode.children.filter(
-        (child) => child.id !== id
+      currentNode[childrenKey] = currentNode[childrenKey].filter(
+        (child: Node) => child.id !== id
       );
       return copiedNode;
     }
 
     // Add children to the stack
-    if (currentNode && currentNode.children) {
-      stack.push(...currentNode.children);
+    if (currentNode && currentNode[childrenKey]) {
+      stack.push(...currentNode[childrenKey]);
     }
   }
 
@@ -113,7 +127,8 @@ export function addNode(
   tree: Node | null | undefined,
   parentId: string,
   newNode: Node,
-  position: number
+  position: number,
+  childrenKey: string = "children"
 ): Node {
   // Check if tree, parentId, or newNode is null or undefined
   if (!tree || !parentId || !newNode) {
@@ -123,7 +138,9 @@ export function addNode(
   // Create a deep copy of the tree
   const copiedTree: Node = {
     id: tree.id,
-    children: tree.children ? tree.children.map((child) => ({ ...child })) : [],
+    [childrenKey]: tree[childrenKey]
+      ? tree[childrenKey].map((child: Node) => ({ ...child }))
+      : [],
   };
 
   // Create a stack for DFS
@@ -137,13 +154,13 @@ export function addNode(
     // Check if current node's id matches the target id
     if (currentNode && currentNode.id === parentId) {
       // Add the new node at the specified position
-      currentNode.children.splice(position, 0, newNode);
+      currentNode[childrenKey].splice(position, 0, newNode);
       return copiedTree;
     }
 
     // Add children to the stack
-    if (currentNode && currentNode.children) {
-      stack.push(...currentNode.children);
+    if (currentNode && currentNode[childrenKey]) {
+      stack.push(...currentNode[childrenKey]);
     }
   }
 
@@ -154,7 +171,8 @@ export function addNode(
 export function moveNode(
   node: Node | null | undefined,
   nodeId: string,
-  newParentId: string
+  newParentId: string,
+  childrenKey: string = "children"
 ): Node | null {
   // Check if node, nodeId, or newParentId is null or undefined
   if (!node || !nodeId || !newParentId) {
@@ -164,7 +182,9 @@ export function moveNode(
   // Create a deep copy of the node
   const copiedNode: Node = {
     id: node.id,
-    children: node.children ? node.children.map((child) => ({ ...child })) : [],
+    [childrenKey]: node[childrenKey]
+      ? node[childrenKey].map((child: Node) => ({ ...child }))
+      : [],
   };
 
   let nodeToMove = null;
@@ -182,17 +202,17 @@ export function moveNode(
     if (currentNode && currentNode.id === nodeId) {
       // Remove the node with the matching id from the copied children array
       if (parentNode) {
-        parentNode.children = parentNode.children.filter(
-          (child) => child.id !== nodeId
+        parentNode[childrenKey] = parentNode[childrenKey].filter(
+          (child: Node) => child.id !== nodeId
         );
       }
       nodeToMove = currentNode;
     }
 
     // Add children to the stack
-    if (currentNode && currentNode.children) {
+    if (currentNode && currentNode[childrenKey]) {
       parentNode = currentNode;
-      stack.push(...currentNode.children);
+      stack.push(...currentNode[childrenKey]);
     }
   }
 
@@ -211,13 +231,13 @@ export function moveNode(
     // Check if current node's id matches the new parent id
     if (currentNode && currentNode.id === newParentId) {
       // Add the node to move to the new parent's children
-      currentNode.children.push(nodeToMove);
+      currentNode[childrenKey].push(nodeToMove);
       return copiedNode;
     }
 
     // Add children to the stack
-    if (currentNode && currentNode.children) {
-      stack.push(...currentNode.children);
+    if (currentNode && currentNode[childrenKey]) {
+      stack.push(...currentNode[childrenKey]);
     }
   }
 
