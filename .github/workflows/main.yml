@@ -27,8 +27,7 @@ jobs:
 
       - name: Increment version and tag commit
         run: |
-          npm version patch --git-tag-version
-          git push --follow-tags
+          npm version patch"
 
       - name: Publish to npm
         run: npm publish
