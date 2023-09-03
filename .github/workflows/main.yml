@@ -25,10 +25,6 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Increment version and tag commit
-        run: |
-          npm version patch
-
       - name: Publish to npm
         run: npm publish
         env:
